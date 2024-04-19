@@ -1,0 +1,35 @@
+syntax = "proto3";
+package proto.wmessage;
+option java_multiple_files = true;
+import "google/protobuf/empty.proto";
+
+message PositionMessage{
+    int32 x = 1;
+    int32 y = 2;
+}
+message RobotWelcomeMessage{
+   int32 id = 1;
+   int32 port = 2;
+   string address = 3;
+   int32 distrect = 4;
+   PositionMessage position = 5;
+}
+message RemoveRobotMessage{
+  int32 id =1;
+}
+message OkMessage{
+  string ok = 1;
+  string id = 2;
+}
+message MaintenanceMessage{
+  uint64 timestamp = 1;
+  RobotWelcomeMessage robotWelcomeMessage = 2;
+}
+service RobotRPC {
+  rpc addRobot(RobotWelcomeMessage) returns (google.protobuf.Empty);
+  rpc removeRobot(RemoveRobotMessage) returns (google.protobuf.Empty);
+  rpc reqMaintenance(MaintenanceMessage) returns (OkMessage);
+  rpc sendOkMessage(OkMessage) returns (google.protobuf.Empty);
+  rpc testConnection(google.protobuf.Empty) returns (google.protobuf.Empty);
+  rpc robotUWLeft(RemoveRobotMessage) returns (google.protobuf.Empty);
+}
